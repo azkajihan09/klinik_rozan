@@ -10,6 +10,7 @@ $routes->get('dashboard', 'Dashboard::index');
 
 // Custom routes (harus sebelum generic module routes)
 $routes->get('module/registrasi/new', 'Registrasi::create/registrasi');
+$routes->get('module/pasien/new', 'Pasien::create/pasien');
 $routes->get('pasien/riwayat/(.+)', 'Pasien::riwayat/$1');
 $routes->get('registrasi/create-no-rawat', 'Registrasi::createNoRawat');
 $routes->get('registrasi/cari-pasien', 'Registrasi::cariPasien');
