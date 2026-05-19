@@ -57,8 +57,12 @@ class Module extends BaseController
         if (! empty($payload['password'])) {
             $payload['password'] = password_hash($payload['password'], PASSWORD_DEFAULT);
         }
-        $this->model($cfg)->insert($payload);
-        return redirect()->to('/module/' . $key)->with('success', 'Data berhasil ditambahkan.');
+        try {
+            $this->model($cfg)->insert($payload);
+            return redirect()->to('/module/' . $key)->with('success', 'Data berhasil ditambahkan.');
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('error', 'Gagal menyimpan: ' . $e->getMessage());
+        }
     }
 
     public function edit(string $key, string $id)
@@ -77,16 +81,24 @@ class Module extends BaseController
         $payload = $this->payload($cfg);
         if (isset($payload['password']) && $payload['password'] === '') unset($payload['password']);
         if (! empty($payload['password'])) $payload['password'] = password_hash($payload['password'], PASSWORD_DEFAULT);
-        $this->model($cfg)->where($cfg['pk'], urldecode($id))->set($payload)->update();
-        return redirect()->to('/module/' . $key)->with('success', 'Data berhasil diperbarui.');
+        try {
+            $this->model($cfg)->where($cfg['pk'], urldecode($id))->set($payload)->update();
+            return redirect()->to('/module/' . $key)->with('success', 'Data berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('error', 'Gagal memperbarui: ' . $e->getMessage());
+        }
     }
 
     public function delete(string $key, string $id)
     {
         $this->requireLogin();
         $cfg = $this->cfg($key);
-        $this->model($cfg)->where($cfg['pk'], urldecode($id))->delete();
-        return redirect()->to('/module/' . $key)->with('success', 'Data berhasil dihapus.');
+        try {
+            $this->model($cfg)->where($cfg['pk'], urldecode($id))->delete();
+            return redirect()->to('/module/' . $key)->with('success', 'Data berhasil dihapus.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal menghapus: ' . $e->getMessage());
+        }
     }
 
     protected function payload(array $cfg): array
