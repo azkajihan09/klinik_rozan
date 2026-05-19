@@ -1,0 +1,28 @@
+# Disable directory browsing
+Options -Indexes
+
+# Deny access to sensitive files
+<FilesMatch "^(\.env|env|\.gitignore|composer\.json|composer\.lock|phpunit\.xml\.dist|preload\.php|spark|LICENSE|README\.md|README_CI4_SIMRS\.md)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order deny,allow
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# Deny access to hidden files and directories (e.g. .git, .env)
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Block access to dot files/folders (.git, .env, etc.)
+    RewriteRule (^\.|/\.) - [F,L]
+
+    # Block access to sensitive directories
+    RewriteRule ^(app|database|system|tests|writable)(/.*)?$ - [F,L]
+
+    # Redirect all requests to public/ folder
+    RewriteCond %{REQUEST_URI} !^/klinik_rozan/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
