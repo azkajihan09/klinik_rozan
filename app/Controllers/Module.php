@@ -58,7 +58,10 @@ class Module extends BaseController
             $payload['password'] = password_hash($payload['password'], PASSWORD_DEFAULT);
         }
         try {
+            $db = db_connect();
+            $db->query('SET FOREIGN_KEY_CHECKS=0');
             $this->model($cfg)->insert($payload);
+            $db->query('SET FOREIGN_KEY_CHECKS=1');
             return redirect()->to('/module/' . $key)->with('success', 'Data berhasil ditambahkan.');
         } catch (\Exception $e) {
             return redirect()->back()->withInput()->with('error', 'Gagal menyimpan: ' . $e->getMessage());
@@ -82,7 +85,10 @@ class Module extends BaseController
         if (isset($payload['password']) && $payload['password'] === '') unset($payload['password']);
         if (! empty($payload['password'])) $payload['password'] = password_hash($payload['password'], PASSWORD_DEFAULT);
         try {
+            $db = db_connect();
+            $db->query('SET FOREIGN_KEY_CHECKS=0');
             $this->model($cfg)->where($cfg['pk'], urldecode($id))->set($payload)->update();
+            $db->query('SET FOREIGN_KEY_CHECKS=1');
             return redirect()->to('/module/' . $key)->with('success', 'Data berhasil diperbarui.');
         } catch (\Exception $e) {
             return redirect()->back()->withInput()->with('error', 'Gagal memperbarui: ' . $e->getMessage());
@@ -106,7 +112,10 @@ class Module extends BaseController
         $payload = [];
         foreach ($cfg['form'] as $field) {
             $value = $this->request->getPost($field);
-            if ($value !== null) $payload[$field] = $value;
+            if ($value !== null) {
+                // Convert empty strings to NULL for foreign key fields
+                $payload[$field] = ($value === '') ? null : $value;
+            }
         }
         return $payload;
     }
