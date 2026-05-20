@@ -11,6 +11,12 @@ $routes->get('dashboard', 'Dashboard::index');
 // Custom routes (harus sebelum generic module routes)
 $routes->get('module/registrasi/new', 'Registrasi::create/registrasi');
 $routes->get('module/pasien/new', 'Pasien::create/pasien');
+$routes->get('module/rawat-jalan/new', 'RawatJalan::create/rawat-jalan');
+$routes->get('module/igd/new', 'Igd::create/igd');
+$routes->get('module/rawat-inap/new', 'RawatInap::create/rawat-inap');
+$routes->get('module/laboratorium/new', 'Laboratorium::create/laboratorium');
+$routes->get('module/radiologi/new', 'Radiologi::create/radiologi');
+$routes->get('module/farmasi/new', 'Farmasi::create/farmasi');
 $routes->get('pasien/riwayat/(.+)', 'Pasien::riwayat/$1');
 $routes->get('registrasi/create-no-rawat', 'Registrasi::createNoRawat');
 $routes->get('registrasi/cari-pasien', 'Registrasi::cariPasien');

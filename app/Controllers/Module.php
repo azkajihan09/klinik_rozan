@@ -110,11 +110,23 @@ class Module extends BaseController
     protected function payload(array $cfg): array
     {
         $payload = [];
+        // Fields yang merupakan foreign key (harus NULL jika kosong)
+        $fkFields = ['kd_pj','kd_kec','kd_kab','kd_kel','kd_prop','suku_bangsa','bahasa_pasien','cacat_fisik','perusahaan_pasien'];
+
         foreach ($cfg['form'] as $field) {
             $value = $this->request->getPost($field);
             if ($value !== null) {
-                // Convert empty strings to NULL for foreign key fields
-                $payload[$field] = ($value === '') ? null : $value;
+                if ($value === '' && in_array($field, $fkFields)) {
+                    $payload[$field] = null;
+                } elseif ($value === '' && (str_contains($field, 'tgl') || str_contains($field, 'tanggal'))) {
+                    // Tanggal kosong -> default '0000-00-00'
+                    $payload[$field] = '0000-00-00';
+                } elseif ($value === '' && str_contains($field, 'jam')) {
+                    // Jam kosong -> default '00:00:00'
+                    $payload[$field] = '00:00:00';
+                } else {
+                    $payload[$field] = $value;
+                }
             }
         }
         return $payload;
