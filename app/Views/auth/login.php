@@ -4,168 +4,145 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login - SIMRS Klinik Rozan</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Inter', system-ui, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            background: linear-gradient(135deg, #0891b2 0%, #0e7490 40%, #164e63 100%);
-            position: relative;
-            overflow: hidden;
-        }
-        body::before {
-            content: '';
-            position: absolute; top: -30%; right: -20%;
-            width: 600px; height: 600px;
-            background: rgba(255,255,255,.04);
-            border-radius: 50%;
-        }
-        body::after {
-            content: '';
-            position: absolute; bottom: -20%; left: -10%;
-            width: 400px; height: 400px;
-            background: rgba(255,255,255,.03);
-            border-radius: 50%;
-        }
-
-        .login-left {
-            flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;
-            padding: 60px; color: white; position: relative; z-index: 1;
-        }
-        .login-left .logo-icon {
-            width: 64px; height: 64px; border-radius: 16px;
-            background: rgba(255,255,255,.15); backdrop-filter: blur(10px);
-            display: flex; align-items: center; justify-content: center;
-            margin-bottom: 24px; border: 1px solid rgba(255,255,255,.2);
-        }
-        .login-left .logo-icon svg { width: 32px; height: 32px; }
-        .login-left h1 { font-size: 36px; font-weight: 800; margin-bottom: 12px; }
-        .login-left p { font-size: 15px; opacity: .85; max-width: 420px; text-align: center; line-height: 1.7; }
-        .login-left .features { margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 440px; }
-        .feature-item {
-            display: flex; align-items: center; gap: 12px; font-size: 13px; font-weight: 500;
-            padding: 12px 16px; border-radius: 12px;
-            background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.1);
-            backdrop-filter: blur(5px);
-        }
-        .feature-item svg { width: 20px; height: 20px; flex-shrink: 0; opacity: .8; }
-
-        .login-right {
-            width: 480px; display: flex; align-items: center; justify-content: center;
-            padding: 40px; position: relative; z-index: 1;
-        }
-        .login-box {
-            width: 100%; max-width: 400px;
-            background: white; border-radius: 24px;
-            padding: 44px 36px;
-            box-shadow: 0 25px 60px rgba(0,0,0,.25);
-        }
-        .login-box .box-logo {
-            width: 52px; height: 52px; border-radius: 14px;
-            background: linear-gradient(135deg, #0891b2, #06b6d4);
-            display: flex; align-items: center; justify-content: center;
-            margin-bottom: 28px;
-            box-shadow: 0 8px 20px rgba(8,145,178,.3);
-        }
-        .login-box .box-logo svg { width: 26px; height: 26px; color: white; }
-        .login-box h2 { font-size: 22px; font-weight: 700; color: #1e293b; margin-bottom: 6px; }
-        .login-box .subtitle { font-size: 14px; color: #64748b; margin-bottom: 32px; }
-
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 8px; }
-        .form-group input {
-            width: 100%; padding: 13px 16px;
-            border: 1.5px solid #e2e8f0; border-radius: 12px;
-            font-size: 14px; font-family: inherit; transition: .2s;
-        }
-        .form-group input:focus { outline: none; border-color: #0891b2; box-shadow: 0 0 0 3px rgba(8,145,178,.1); }
-        .form-group input::placeholder { color: #94a3b8; }
-
-        .btn-login {
-            width: 100%; padding: 14px; border: none; border-radius: 12px;
-            background: linear-gradient(135deg, #0891b2, #06b6d4);
-            color: white; font-size: 15px; font-weight: 600; font-family: inherit;
-            cursor: pointer; transition: .2s; margin-top: 8px;
-            box-shadow: 0 4px 14px rgba(8,145,178,.3);
-        }
-        .btn-login:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(8,145,178,.4); }
-        .btn-login:active { transform: translateY(0); }
-
-        .error-msg {
-            background: #fef2f2; color: #991b1b; padding: 12px 16px;
-            border-radius: 10px; font-size: 13px; margin-bottom: 20px;
-            border: 1px solid #fecaca; font-weight: 500;
-        }
-
-        .login-footer { text-align: center; margin-top: 28px; font-size: 12px; color: #94a3b8; }
-
-        @media (max-width: 900px) {
-            .login-left { display: none; }
-            .login-right { width: 100%; padding: 24px; }
-            body { justify-content: center; align-items: center; }
-        }
-    </style>
+    <link rel="stylesheet" href="<?= base_url('assets/adminlte/css/adminlte.min.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/app.css') ?>">
 </head>
-<body>
-    <div class="login-left">
-        <div class="logo-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
-            </svg>
-        </div>
-        <h1>Klinik Rozan</h1>
-        <p>Sistem Informasi Manajemen Rumah Sakit terintegrasi untuk pelayanan kesehatan yang lebih baik dan efisien.</p>
-        <div class="features">
-            <div class="feature-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-                Manajemen Pasien
-            </div>
-            <div class="feature-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-                Rawat Jalan & Inap
-            </div>
-            <div class="feature-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3h6v2H9zM10 5v6.5L6 20h12l-4-8.5V5"/></svg>
-                Lab & Radiologi
-            </div>
-            <div class="feature-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-                Billing & BPJS
-            </div>
-        </div>
-    </div>
-    <div class="login-right">
-        <div class="login-box">
-            <div class="box-logo">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
-                </svg>
-            </div>
-            <h2>Selamat Datang</h2>
-            <p class="subtitle">Masuk ke SIMRS Klinik Rozan</p>
+<body class="app-login-page">
+    <div class="container-fluid">
+        <div class="row g-0 align-items-stretch">
+            <div class="col-lg-7 d-none d-lg-flex align-items-center app-login-hero">
+                <div class="app-login-hero-content">
+                    <div class="app-login-brand">
+                        <span class="app-login-brand-mark">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                            </svg>
+                        </span>
+                        <div class="app-login-brand-text">
+                            <h1>Klinik Rozan</h1>
+                            <p>SIMRS terintegrasi untuk pelayanan klinik yang lebih rapi, cepat, dan terukur.</p>
+                        </div>
+                    </div>
 
-            <?php if(!empty($error)): ?>
-                <div class="error-msg">⚠️ <?= esc($error) ?></div>
-            <?php endif; ?>
+                    <p class="app-login-lead">
+                        Akses dashboard, registrasi, rawat jalan, penunjang, dan billing dari satu sistem yang konsisten dengan alur kerja operasional harian.
+                    </p>
 
-            <form method="post">
-                <div class="form-group">
-                    <label>Username</label>
-                    <input type="text" name="username" placeholder="Masukkan username" required autofocus>
+                    <div class="app-login-feature-grid">
+                        <div class="app-login-feature">
+                            <span class="app-icon-chip">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                            </span>
+                            <div>
+                                <strong>Manajemen Pasien</strong>
+                                <span>Data pasien, registrasi, dan riwayat kunjungan.</span>
+                            </div>
+                        </div>
+                        <div class="app-login-feature">
+                            <span class="app-icon-chip">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                            </span>
+                            <div>
+                                <strong>Pelayanan Klinis</strong>
+                                <span>Rawat jalan, IGD, dan rawat inap dalam satu alur.</span>
+                            </div>
+                        </div>
+                        <div class="app-login-feature">
+                            <span class="app-icon-chip">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3h6v2H9zM10 5v6.5L6 20h12l-4-8.5V5"/></svg>
+                            </span>
+                            <div>
+                                <strong>Penunjang Medis</strong>
+                                <span>Laboratorium, radiologi, farmasi, dan operasi.</span>
+                            </div>
+                        </div>
+                        <div class="app-login-feature">
+                            <span class="app-icon-chip">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                            </span>
+                            <div>
+                                <strong>Billing dan BPJS</strong>
+                                <span>Transaksi, klaim, dan monitoring pembayaran.</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" name="password" placeholder="Masukkan password" required>
-                </div>
-                <button type="submit" class="btn-login">Masuk</button>
-            </form>
+            </div>
 
-            <div class="login-footer">
-                &copy; <?= date('Y') ?> Klinik Rozan &middot; SIMRS v1.0
+            <div class="col-lg-5 d-flex align-items-center justify-content-center px-3 px-md-4 py-5">
+                <div class="app-login-panel">
+                    <div class="card app-login-card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center gap-3 mb-4">
+                                <span class="app-avatar bg-primary">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                                    </svg>
+                                </span>
+                                <div>
+                                    <h2 class="h3 mb-1">Masuk ke SIMRS</h2>
+                                    <p class="text-muted mb-0">Gunakan akun petugas untuk melanjutkan ke sistem Klinik Rozan.</p>
+                                </div>
+                            </div>
+
+                            <?php if (!empty($error)): ?>
+                                <div class="alert alert-danger" role="alert">
+                                    <?= esc($error) ?>
+                                </div>
+                            <?php endif; ?>
+
+                            <form method="post">
+                                <div class="mb-3">
+                                    <label for="username" class="form-label">Username</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                                <circle cx="12" cy="7" r="4" />
+                                            </svg>
+                                        </span>
+                                        <input type="text" id="username" name="username" class="form-control" placeholder="Masukkan username" required autofocus>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <rect x="3" y="11" width="18" height="11" rx="2" />
+                                                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                            </svg>
+                                        </span>
+                                        <input type="password" id="password" name="password" class="form-control" placeholder="Masukkan password" required>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary w-100 btn-lg mt-2">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+                                        <polyline points="10 17 15 12 10 7" />
+                                        <line x1="15" y1="12" x2="3" y2="12" />
+                                    </svg>
+                                    Masuk ke Sistem
+                                </button>
+                            </form>
+
+                            <div class="app-login-note">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <path d="M12 8v4" />
+                                    <path d="M12 16h.01" />
+                                </svg>
+                                Sesi login digunakan untuk mengakses menu sesuai role pengguna.
+                            </div>
+
+                            <div class="app-login-footer">
+                                &copy; <?= date('Y') ?> Klinik Rozan · SIMRS v1.0
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

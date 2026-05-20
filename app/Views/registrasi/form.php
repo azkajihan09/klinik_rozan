@@ -3,7 +3,7 @@
 
 <div class="content-header px-0 pt-0 pb-2">
     <div class="container-fluid px-0">
-        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div class="app-page-toolbar">
             <div>
                 <h1 class="mb-1">Registrasi Pasien Baru</h1>
                 <ol class="breadcrumb mb-0 small">
@@ -31,7 +31,7 @@
 
 <form method="post" action="<?= site_url('module/registrasi') ?>">
     <div class="card card-primary card-outline">
-        <div class="card-header">
+        <div class="card-header app-card-header">
             <h3 class="card-title">1. Pilih Pasien</h3>
             <a href="<?= site_url('module/pasien/new') ?>" class="btn btn-primary btn-sm" target="_blank">Pasien Baru</a>
         </div>
@@ -73,8 +73,9 @@
     </div>
 
     <div class="card card-outline card-info">
-        <div class="card-header">
+        <div class="card-header app-card-header">
             <h3 class="card-title">2. Data Registrasi</h3>
+            <span class="badge text-bg-info">No. Reg: <?= esc($noReg) ?></span>
         </div>
         <div class="card-body">
             <div class="row g-3">
@@ -99,8 +100,9 @@
     </div>
 
     <div class="card card-outline card-info">
-        <div class="card-header">
+        <div class="card-header app-card-header">
             <h3 class="card-title">3. Tujuan Pelayanan</h3>
+            <span class="badge text-bg-secondary">Layanan Awal</span>
         </div>
         <div class="card-body">
             <div class="row g-3">
@@ -143,8 +145,9 @@
     </div>
 
     <div class="card card-outline card-secondary">
-        <div class="card-header">
+        <div class="card-header app-card-header">
             <h3 class="card-title">4. Penanggung Jawab</h3>
+            <span class="badge text-bg-light">Opsional</span>
         </div>
         <div class="card-body">
             <div class="row g-3">
@@ -185,12 +188,12 @@
     <input type="hidden" name="status_poli" value="Belum">
 
     <div class="card card-outline card-success">
-        <div class="card-body d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div class="card-body app-action-bar">
             <div>
                 <h3 class="card-title mb-1">Simpan Registrasi</h3>
                 <p class="text-muted mb-0 small">Pastikan pasien, poli, dokter, dan penjamin sudah dipilih dengan benar sebelum menyimpan.</p>
             </div>
-            <div class="d-flex flex-wrap gap-2">
+            <div class="app-card-actions">
                 <button type="submit" class="btn btn-primary">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />

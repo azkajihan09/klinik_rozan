@@ -3,7 +3,7 @@
 
 <div class="content-header px-0 pt-0 pb-2">
     <div class="container-fluid px-0">
-        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div class="app-page-toolbar">
             <div>
                 <h1 class="mb-1">Pendaftaran Pasien Baru</h1>
                 <ol class="breadcrumb mb-0 small">
@@ -31,7 +31,7 @@
 
 <form method="post" action="<?= site_url('module/pasien') ?>" id="form-pasien">
     <div class="card card-outline card-primary animate-fade-up">
-        <div class="card-header">
+        <div class="card-header app-card-header">
             <h3 class="card-title">Identitas Pasien</h3>
             <span class="badge text-bg-info">No. RM: <?= esc($noRM) ?></span>
         </div>
@@ -83,8 +83,9 @@
     </div>
 
     <div class="card card-outline card-info animate-fade-up">
-        <div class="card-header">
+        <div class="card-header app-card-header">
             <h3 class="card-title">Kontak dan Alamat</h3>
+            <span class="badge text-bg-light">Wajib Lengkap</span>
         </div>
         <div class="card-body">
             <div class="row g-3">
@@ -105,8 +106,9 @@
     </div>
 
     <div class="card card-outline card-warning animate-fade-up">
-        <div class="card-header">
+        <div class="card-header app-card-header">
             <h3 class="card-title">Penjamin / Asuransi</h3>
+            <span class="badge text-bg-warning">Pembayaran</span>
         </div>
         <div class="card-body">
             <div class="row g-3">
@@ -128,12 +130,12 @@
     </div>
 
     <div class="card card-outline card-success animate-fade-up">
-        <div class="card-body d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div class="card-body app-action-bar">
             <div>
                 <h3 class="card-title mb-1">Simpan Data Pasien</h3>
                 <p class="text-muted mb-0 small">Pastikan data identitas, kontak, dan penjamin sudah benar sebelum disimpan.</p>
             </div>
-            <div class="d-flex flex-wrap gap-2">
+            <div class="app-card-actions">
                 <button type="submit" class="btn btn-primary">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />

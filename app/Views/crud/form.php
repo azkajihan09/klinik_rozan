@@ -221,127 +221,130 @@ $fieldLabels = [
 ];
 
 // Fungsi untuk mendapatkan label
-function getLabel(string $field, array $labels): string {
+function getLabel(string $field, array $labels): string
+{
     return $labels[$field] ?? ucwords(str_replace('_', ' ', $field));
 }
 ?>
 
-<div class="page-header">
-    <div>
-        <h1><?= $mode === 'create' ? '➕ Tambah' : '✏️ Edit' ?> <?= esc($cfg['title']) ?></h1>
-        <p class="breadcrumb">
-            <a href="<?= site_url('dashboard') ?>">Dashboard</a> /
-            <a href="<?= site_url('module/'.$moduleKey) ?>"><?= esc($cfg['title']) ?></a> /
-            <?= $mode === 'create' ? 'Tambah' : 'Edit' ?>
-        </p>
+<div class="content-header px-0 pt-0 pb-2">
+    <div class="container-fluid px-0 d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div>
+            <h1 class="mb-1"><?= $mode === 'create' ? 'Tambah' : 'Edit' ?> <?= esc($cfg['title']) ?></h1>
+            <ol class="breadcrumb mb-0 small">
+                <li class="breadcrumb-item"><a href="<?= site_url('dashboard') ?>">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="<?= site_url('module/' . $moduleKey) ?>"><?= esc($cfg['title']) ?></a></li>
+                <li class="breadcrumb-item active" aria-current="page"><?= $mode === 'create' ? 'Tambah' : 'Edit' ?></li>
+            </ol>
+        </div>
+        <a href="<?= site_url('module/' . $moduleKey) ?>" class="btn btn-outline-secondary">Kembali</a>
     </div>
-    <a href="<?= site_url('module/'.$moduleKey) ?>" class="btn btn-secondary">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-        Kembali
-    </a>
 </div>
 
-<?php if(session('error')): ?>
-    <div class="alert alert-error">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+<?php if (session('error')): ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <?= esc(session('error')) ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 <?php endif; ?>
 
 <div class="card">
-    <form method="post" action="<?= $mode === 'create' ? site_url('module/'.$moduleKey) : site_url('module/'.$moduleKey.'/update/'.rawurlencode((string)($row[$cfg['pk']] ?? ''))) ?>">
-        <div class="form-grid">
-            <?php foreach($cfg['form'] as $field): ?>
-                <?php $value = $row[$field] ?? ''; $label = getLabel($field, $fieldLabels); ?>
-                <div class="form-group">
-                    <label class="form-label"><?= esc($label) ?></label>
-                    <?php if(str_contains($field, 'alamat') || str_contains($field, 'hasil') || str_contains($field, 'keluhan') || str_contains($field, 'pemeriksaan') || str_contains($field, 'penilaian') || str_contains($field, 'instruksi') || str_contains($field, 'evaluasi') || str_contains($field, 'access') || str_contains($field, 'catatan') || str_contains($field, 'informasi') || str_contains($field, 'description')): ?>
-                        <textarea name="<?= esc($field) ?>" class="form-control" rows="3" placeholder="<?= esc($label) ?>"><?= esc($value) ?></textarea>
-                    <?php elseif(str_contains($field, 'tgl') || $field === 'tanggal_lahir' || $field === 'tanggal' || $field === 'expire' || $field === 'tglsep' || $field === 'tglrujukan'): ?>
-                        <input type="date" name="<?= esc($field) ?>" value="<?= esc($value) ?>" class="form-control">
-                    <?php elseif(str_contains($field, 'jam')): ?>
-                        <input type="time" name="<?= esc($field) ?>" value="<?= esc($value) ?>" class="form-control">
-                    <?php elseif(str_contains($field, 'password')): ?>
-                        <input type="password" name="<?= esc($field) ?>" value="" class="form-control" placeholder="Kosongkan jika tidak diubah">
-                    <?php elseif(str_contains($field, 'email')): ?>
-                        <input type="email" name="<?= esc($field) ?>" value="<?= esc($value) ?>" class="form-control" placeholder="contoh@email.com">
-                    <?php elseif($field === 'jk' || $field === 'jkel'): ?>
-                        <select name="<?= esc($field) ?>" class="form-control">
-                            <option value="">-- Pilih Jenis Kelamin --</option>
-                            <option value="L" <?= $value === 'L' ? 'selected' : '' ?>>Laki-laki</option>
-                            <option value="P" <?= $value === 'P' ? 'selected' : '' ?>>Perempuan</option>
-                        </select>
-                    <?php elseif($field === 'status_lanjut'): ?>
-                        <select name="<?= esc($field) ?>" class="form-control">
-                            <option value="">-- Pilih Jenis Layanan --</option>
-                            <option value="Ralan" <?= $value === 'Ralan' ? 'selected' : '' ?>>Rawat Jalan</option>
-                            <option value="Ranap" <?= $value === 'Ranap' ? 'selected' : '' ?>>Rawat Inap</option>
-                        </select>
-                    <?php elseif($field === 'status' && ($moduleKey === 'dokter' || $moduleKey === 'poli' || $moduleKey === 'bangsal' || $moduleKey === 'obat')): ?>
-                        <select name="<?= esc($field) ?>" class="form-control">
-                            <option value="">-- Pilih Status --</option>
-                            <option value="1" <?= $value === '1' || $value === 1 ? 'selected' : '' ?>>Aktif</option>
-                            <option value="0" <?= $value === '0' || $value === 0 ? 'selected' : '' ?>>Non-Aktif</option>
-                        </select>
-                    <?php elseif($field === 'agama'): ?>
-                        <select name="<?= esc($field) ?>" class="form-control">
-                            <option value="">-- Pilih Agama --</option>
-                            <?php foreach(['Islam','Kristen','Katolik','Hindu','Budha','Konghucu','Lainnya'] as $ag): ?>
-                                <option value="<?= $ag ?>" <?= $value === $ag ? 'selected' : '' ?>><?= $ag ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    <?php elseif($field === 'stts_nikah'): ?>
-                        <select name="<?= esc($field) ?>" class="form-control">
-                            <option value="">-- Pilih Status --</option>
-                            <?php foreach(['BELUM MENIKAH','MENIKAH','JANDA','DUDA'] as $sn): ?>
-                                <option value="<?= $sn ?>" <?= $value === $sn ? 'selected' : '' ?>><?= $sn ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    <?php elseif($field === 'gol_darah' || $field === 'gol_drh'): ?>
-                        <select name="<?= esc($field) ?>" class="form-control">
-                            <option value="">-- Pilih --</option>
-                            <?php foreach(['-','A','B','AB','O'] as $gd): ?>
-                                <option value="<?= $gd ?>" <?= $value === $gd ? 'selected' : '' ?>><?= $gd ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    <?php elseif($field === 'kesadaran'): ?>
-                        <select name="<?= esc($field) ?>" class="form-control">
-                            <option value="">-- Pilih --</option>
-                            <?php foreach(['Compos Mentis','Somnolence','Sopor','Coma','Apatis'] as $k): ?>
-                                <option value="<?= $k ?>" <?= $value === $k ? 'selected' : '' ?>><?= $k ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    <?php elseif($field === 'role'): ?>
-                        <select name="<?= esc($field) ?>" class="form-control">
-                            <option value="">-- Pilih Role --</option>
-                            <?php foreach(['admin','dokter','perawat','farmasi','kasir','pendaftaran','laboratorium','radiologi'] as $r): ?>
-                                <option value="<?= $r ?>" <?= $value === $r ? 'selected' : '' ?>><?= ucfirst($r) ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    <?php elseif($field === 'sttsumur'): ?>
-                        <select name="<?= esc($field) ?>" class="form-control">
-                            <option value="">-- Satuan --</option>
-                            <option value="Th" <?= $value === 'Th' ? 'selected' : '' ?>>Tahun</option>
-                            <option value="Bl" <?= $value === 'Bl' ? 'selected' : '' ?>>Bulan</option>
-                            <option value="Hr" <?= $value === 'Hr' ? 'selected' : '' ?>>Hari</option>
-                        </select>
-                    <?php elseif(str_contains($field, 'biaya') || str_contains($field, 'jumlah') || str_contains($field, 'tarif') || str_contains($field, 'stok') || str_contains($field, 'umur') || in_array($field, ['nadi','respirasi','spo2','lama','ttl_biaya','h_beli','ralan','potongan','trf_kamar','registrasi','registrasilama','kelas1','kelas2','kelas3','dasar','tinggi','berat','suhu_tubuh','suhu','gcs','gcs_e','gcs_v','gcs_m','stokminimal','no_reg'])): ?>
-                        <input type="number" step="any" name="<?= esc($field) ?>" value="<?= esc($value) ?>" class="form-control" placeholder="0">
-                    <?php elseif($field === 'no_tlp' || $field === 'no_telp' || $field === 'notelep'): ?>
-                        <input type="tel" name="<?= esc($field) ?>" value="<?= esc($value) ?>" class="form-control" placeholder="08xxxxxxxxxx">
-                    <?php else: ?>
-                        <input type="text" name="<?= esc($field) ?>" value="<?= esc($value) ?>" class="form-control" placeholder="<?= esc($label) ?>">
-                    <?php endif; ?>
-                </div>
-            <?php endforeach; ?>
+    <div class="card-header">
+        <h3 class="card-title"><?= $mode === 'create' ? 'Form Tambah Data' : 'Form Edit Data' ?></h3>
+    </div>
+    <form method="post" action="<?= $mode === 'create' ? site_url('module/' . $moduleKey) : site_url('module/' . $moduleKey . '/update/' . rawurlencode((string)($row[$cfg['pk']] ?? ''))) ?>">
+        <div class="card-body">
+            <div class="row g-3">
+                <?php foreach ($cfg['form'] as $field): ?>
+                    <?php $value = $row[$field] ?? '';
+                    $label = getLabel($field, $fieldLabels); ?>
+                    <div class="col-md-6 col-xl-4">
+                        <label class="form-label"><?= esc($label) ?></label>
+                        <?php if (str_contains($field, 'alamat') || str_contains($field, 'hasil') || str_contains($field, 'keluhan') || str_contains($field, 'pemeriksaan') || str_contains($field, 'penilaian') || str_contains($field, 'instruksi') || str_contains($field, 'evaluasi') || str_contains($field, 'access') || str_contains($field, 'catatan') || str_contains($field, 'informasi') || str_contains($field, 'description')): ?>
+                            <textarea name="<?= esc($field) ?>" class="form-control" rows="3" placeholder="<?= esc($label) ?>"><?= esc($value) ?></textarea>
+                        <?php elseif (str_contains($field, 'tgl') || $field === 'tanggal_lahir' || $field === 'tanggal' || $field === 'expire' || $field === 'tglsep' || $field === 'tglrujukan'): ?>
+                            <input type="date" name="<?= esc($field) ?>" value="<?= esc($value) ?>" class="form-control">
+                        <?php elseif (str_contains($field, 'jam')): ?>
+                            <input type="time" name="<?= esc($field) ?>" value="<?= esc($value) ?>" class="form-control">
+                        <?php elseif (str_contains($field, 'password')): ?>
+                            <input type="password" name="<?= esc($field) ?>" value="" class="form-control" placeholder="Kosongkan jika tidak diubah">
+                        <?php elseif (str_contains($field, 'email')): ?>
+                            <input type="email" name="<?= esc($field) ?>" value="<?= esc($value) ?>" class="form-control" placeholder="contoh@email.com">
+                        <?php elseif ($field === 'jk' || $field === 'jkel'): ?>
+                            <select name="<?= esc($field) ?>" class="form-select">
+                                <option value="">-- Pilih Jenis Kelamin --</option>
+                                <option value="L" <?= $value === 'L' ? 'selected' : '' ?>>Laki-laki</option>
+                                <option value="P" <?= $value === 'P' ? 'selected' : '' ?>>Perempuan</option>
+                            </select>
+                        <?php elseif ($field === 'status_lanjut'): ?>
+                            <select name="<?= esc($field) ?>" class="form-select">
+                                <option value="">-- Pilih Jenis Layanan --</option>
+                                <option value="Ralan" <?= $value === 'Ralan' ? 'selected' : '' ?>>Rawat Jalan</option>
+                                <option value="Ranap" <?= $value === 'Ranap' ? 'selected' : '' ?>>Rawat Inap</option>
+                            </select>
+                        <?php elseif ($field === 'status' && ($moduleKey === 'dokter' || $moduleKey === 'poli' || $moduleKey === 'bangsal' || $moduleKey === 'obat')): ?>
+                            <select name="<?= esc($field) ?>" class="form-select">
+                                <option value="">-- Pilih Status --</option>
+                                <option value="1" <?= $value === '1' || $value === 1 ? 'selected' : '' ?>>Aktif</option>
+                                <option value="0" <?= $value === '0' || $value === 0 ? 'selected' : '' ?>>Non-Aktif</option>
+                            </select>
+                        <?php elseif ($field === 'agama'): ?>
+                            <select name="<?= esc($field) ?>" class="form-select">
+                                <option value="">-- Pilih Agama --</option>
+                                <?php foreach (['Islam', 'Kristen', 'Katolik', 'Hindu', 'Budha', 'Konghucu', 'Lainnya'] as $ag): ?>
+                                    <option value="<?= $ag ?>" <?= $value === $ag ? 'selected' : '' ?>><?= $ag ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        <?php elseif ($field === 'stts_nikah'): ?>
+                            <select name="<?= esc($field) ?>" class="form-select">
+                                <option value="">-- Pilih Status --</option>
+                                <?php foreach (['BELUM MENIKAH', 'MENIKAH', 'JANDA', 'DUDA'] as $sn): ?>
+                                    <option value="<?= $sn ?>" <?= $value === $sn ? 'selected' : '' ?>><?= $sn ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        <?php elseif ($field === 'gol_darah' || $field === 'gol_drh'): ?>
+                            <select name="<?= esc($field) ?>" class="form-select">
+                                <option value="">-- Pilih --</option>
+                                <?php foreach (['-', 'A', 'B', 'AB', 'O'] as $gd): ?>
+                                    <option value="<?= $gd ?>" <?= $value === $gd ? 'selected' : '' ?>><?= $gd ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        <?php elseif ($field === 'kesadaran'): ?>
+                            <select name="<?= esc($field) ?>" class="form-select">
+                                <option value="">-- Pilih --</option>
+                                <?php foreach (['Compos Mentis', 'Somnolence', 'Sopor', 'Coma', 'Apatis'] as $k): ?>
+                                    <option value="<?= $k ?>" <?= $value === $k ? 'selected' : '' ?>><?= $k ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        <?php elseif ($field === 'role'): ?>
+                            <select name="<?= esc($field) ?>" class="form-select">
+                                <option value="">-- Pilih Role --</option>
+                                <?php foreach (['admin', 'dokter', 'perawat', 'farmasi', 'kasir', 'pendaftaran', 'laboratorium', 'radiologi'] as $r): ?>
+                                    <option value="<?= $r ?>" <?= $value === $r ? 'selected' : '' ?>><?= ucfirst($r) ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        <?php elseif ($field === 'sttsumur'): ?>
+                            <select name="<?= esc($field) ?>" class="form-select">
+                                <option value="">-- Satuan --</option>
+                                <option value="Th" <?= $value === 'Th' ? 'selected' : '' ?>>Tahun</option>
+                                <option value="Bl" <?= $value === 'Bl' ? 'selected' : '' ?>>Bulan</option>
+                                <option value="Hr" <?= $value === 'Hr' ? 'selected' : '' ?>>Hari</option>
+                            </select>
+                        <?php elseif (str_contains($field, 'biaya') || str_contains($field, 'jumlah') || str_contains($field, 'tarif') || str_contains($field, 'stok') || str_contains($field, 'umur') || in_array($field, ['nadi', 'respirasi', 'spo2', 'lama', 'ttl_biaya', 'h_beli', 'ralan', 'potongan', 'trf_kamar', 'registrasi', 'registrasilama', 'kelas1', 'kelas2', 'kelas3', 'dasar', 'tinggi', 'berat', 'suhu_tubuh', 'suhu', 'gcs', 'gcs_e', 'gcs_v', 'gcs_m', 'stokminimal', 'no_reg'])): ?>
+                            <input type="number" step="any" name="<?= esc($field) ?>" value="<?= esc($value) ?>" class="form-control" placeholder="0">
+                        <?php elseif ($field === 'no_tlp' || $field === 'no_telp' || $field === 'notelep'): ?>
+                            <input type="tel" name="<?= esc($field) ?>" value="<?= esc($value) ?>" class="form-control" placeholder="08xxxxxxxxxx">
+                        <?php else: ?>
+                            <input type="text" name="<?= esc($field) ?>" value="<?= esc($value) ?>" class="form-control" placeholder="<?= esc($label) ?>">
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
         </div>
 
-        <div style="margin-top:28px;display:flex;gap:10px;padding-top:20px;border-top:1px solid var(--border-light, #f1f5f9)">
-            <button type="submit" class="btn btn-primary">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-                Simpan
-            </button>
-            <a href="<?= site_url('module/'.$moduleKey) ?>" class="btn btn-secondary">Batal</a>
+        <div class="card-footer d-flex gap-2 flex-wrap">
+            <button type="submit" class="btn btn-primary">Simpan</button>
+            <a href="<?= site_url('module/' . $moduleKey) ?>" class="btn btn-outline-secondary">Batal</a>
         </div>
     </form>
 </div>

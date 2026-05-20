@@ -3,8 +3,30 @@
 
 <div class="content-header px-0 pt-0 pb-2">
     <div class="container-fluid px-0">
-        <h1 class="mb-1">Dashboard</h1>
-        <p class="text-muted mb-0">Ringkasan operasional klinik untuk hari ini.</p>
+        <div class="app-page-toolbar">
+            <div>
+                <h1 class="mb-1">Dashboard</h1>
+                <p class="text-muted mb-0">Ringkasan operasional klinik untuk hari ini.</p>
+            </div>
+            <div class="app-card-actions">
+                <a href="<?= site_url('module/registrasi/new') ?>" class="btn btn-primary btn-sm">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="12" y1="18" x2="12" y2="12" />
+                        <line x1="9" y1="15" x2="15" y2="15" />
+                    </svg>
+                    Registrasi Baru
+                </a>
+                <a href="<?= site_url('module/billing') ?>" class="btn btn-outline-secondary btn-sm">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="1" y="4" width="22" height="16" rx="2" />
+                        <line x1="1" y1="10" x2="23" y2="10" />
+                    </svg>
+                    Billing
+                </a>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -104,9 +126,14 @@
         </div>
 
         <div class="card animate-fade-up">
-            <div class="card-header">
+            <div class="card-header app-card-header">
                 <h3 class="card-title">Antrian Pasien Hari Ini</h3>
-                <a href="<?= site_url('module/registrasi') ?>" class="btn btn-outline-secondary btn-sm">Lihat Semua</a>
+                <a href="<?= site_url('module/registrasi') ?>" class="btn btn-outline-secondary btn-sm">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 18l6-6-6-6" />
+                    </svg>
+                    Lihat Semua
+                </a>
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
@@ -141,7 +168,16 @@
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
-                                    <td colspan="5" class="text-center py-4 text-muted">Belum ada antrian hari ini.</td>
+                                    <td colspan="5" class="app-empty-row">
+                                        <div class="app-empty-state app-empty-state-sm">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                                                <circle cx="9" cy="7" r="4" />
+                                            </svg>
+                                            <div class="app-empty-title">Belum ada antrian hari ini</div>
+                                            <p class="app-empty-text small">Registrasi pasien baru akan muncul di tabel ini.</p>
+                                        </div>
+                                    </td>
                                 </tr>
                             <?php endif; ?>
                         </tbody>
@@ -213,9 +249,14 @@
         </div>
 
         <div class="card animate-fade-up">
-            <div class="card-header">
+            <div class="card-header app-card-header">
                 <h3 class="card-title">Dokter Aktif</h3>
-                <a href="<?= site_url('module/dokter') ?>" class="btn btn-outline-secondary btn-sm">Semua</a>
+                <a href="<?= site_url('module/dokter') ?>" class="btn btn-outline-secondary btn-sm">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 18l6-6-6-6" />
+                    </svg>
+                    Semua
+                </a>
             </div>
             <div class="card-body p-0">
                 <?php if (!empty($dokter_list)): ?>
@@ -235,7 +276,14 @@
                         <?php endforeach; ?>
                     </div>
                 <?php else: ?>
-                    <div class="app-empty-state">Belum ada data dokter.</div>
+                    <div class="app-empty-state app-empty-state-sm">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                            <circle cx="12" cy="7" r="4" />
+                        </svg>
+                        <div class="app-empty-title">Belum ada data dokter</div>
+                        <p class="app-empty-text small">Tambahkan dokter aktif untuk menampilkan roster di dashboard.</p>
+                    </div>
                 <?php endif; ?>
             </div>
         </div>
