@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="id">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="<?= base_url('assets/adminlte/css/adminlte.min.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/css/app.css') ?>">
 </head>
+
 <body class="app-login-page">
     <div class="container-fluid">
         <div class="row g-0 align-items-stretch">
@@ -31,7 +33,10 @@
                     <div class="app-login-feature-grid">
                         <div class="app-login-feature">
                             <span class="app-icon-chip">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                                    <circle cx="9" cy="7" r="4" />
+                                </svg>
                             </span>
                             <div>
                                 <strong>Manajemen Pasien</strong>
@@ -40,7 +45,9 @@
                         </div>
                         <div class="app-login-feature">
                             <span class="app-icon-chip">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                                </svg>
                             </span>
                             <div>
                                 <strong>Pelayanan Klinis</strong>
@@ -49,7 +56,9 @@
                         </div>
                         <div class="app-login-feature">
                             <span class="app-icon-chip">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3h6v2H9zM10 5v6.5L6 20h12l-4-8.5V5"/></svg>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 3h6v2H9zM10 5v6.5L6 20h12l-4-8.5V5" />
+                                </svg>
                             </span>
                             <div>
                                 <strong>Penunjang Medis</strong>
@@ -58,7 +67,10 @@
                         </div>
                         <div class="app-login-feature">
                             <span class="app-icon-chip">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="1" y="4" width="22" height="16" rx="2" />
+                                    <line x1="1" y1="10" x2="23" y2="10" />
+                                </svg>
                             </span>
                             <div>
                                 <strong>Billing dan BPJS</strong>
@@ -147,4 +159,5 @@
         </div>
     </div>
 </body>
+
 </html>
